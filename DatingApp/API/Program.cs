@@ -13,6 +13,11 @@ builder.Services.AddEndpointsApiExplorer();
 if (builder.Environment.IsDevelopment()) {
     Console.WriteLine("--> Generating swagger doc ...");
     builder.Services.AddSwaggerGen();    
+    builder.Services.AddCors(options => {
+        options.AddDefaultPolicy(policy => {
+            policy.WithOrigins("http://localhost:4200", "https://localhost:4200");
+        });
+    });
 }
 
 Console.WriteLine("---> Using SQL Lite database ...");
@@ -33,6 +38,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseCors();
 
 app.UseAuthorization();
 
